@@ -578,6 +578,7 @@ class EmployeesService {
   }
 
   async getById(id: string): Promise<User | null> {
+    // Try full profile first (works for own profile + admin/manager)
     const { data, error } = await supabase.from("profiles").select("*").eq("user_id", id).single();
     if (error || !data) return null;
 

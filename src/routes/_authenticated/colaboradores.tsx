@@ -150,9 +150,11 @@ function EmployeesPage() {
                         </p>
                       )}
                       <div className="mt-3 flex items-center gap-2">
-                        <a href={`mailto:${emp.email}`} className="flex h-8 w-8 items-center justify-center rounded-full bg-accent transition-colors hover:bg-accent/80" onClick={(e) => e.stopPropagation()}>
-                          <Mail className="h-3.5 w-3.5 text-muted-foreground" />
-                        </a>
+                        {emp.email && (
+                          <a href={`mailto:${emp.email}`} className="flex h-8 w-8 items-center justify-center rounded-full bg-accent transition-colors hover:bg-accent/80" onClick={(e) => e.stopPropagation()}>
+                            <Mail className="h-3.5 w-3.5 text-muted-foreground" />
+                          </a>
+                        )}
                         {emp.phone && (
                           <a href={`tel:${emp.phone}`} className="flex h-8 w-8 items-center justify-center rounded-full bg-accent transition-colors hover:bg-accent/80" onClick={(e) => e.stopPropagation()}>
                             <Phone className="h-3.5 w-3.5 text-muted-foreground" />
@@ -185,8 +187,7 @@ function EmployeesPage() {
                         <div className="mt-1 flex flex-wrap items-center gap-2 text-[10px] text-muted-foreground">
                           <span className="flex items-center gap-1"><Building2 className="h-3 w-3" /> {emp.department}</span>
                           {emp.location && <><span>·</span><span className="flex items-center gap-1"><MapPin className="h-3 w-3" /> {emp.location}</span></>}
-                          <span>·</span>
-                          <span>{emp.email}</span>
+                          {emp.email && <><span>·</span><span>{emp.email}</span></>}
                           {emp.extension && <><span>·</span><span>{lang === "pt" ? "Ramal" : "Ext"} {emp.extension}</span></>}
                         </div>
                       </div>

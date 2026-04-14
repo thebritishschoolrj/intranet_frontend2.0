@@ -129,11 +129,13 @@ function EmployeeProfilePage() {
                     </div>
                     {/* Actions */}
                     <div className="mt-4 flex flex-wrap items-center justify-center gap-2 sm:justify-start">
-                      <a href={`mailto:${employee.email}`}>
-                        <Button size="sm" className="gap-1.5">
-                          <Mail className="h-3.5 w-3.5" /> Email
-                        </Button>
-                      </a>
+                      {employee.email && (
+                        <a href={`mailto:${employee.email}`}>
+                          <Button size="sm" className="gap-1.5">
+                            <Mail className="h-3.5 w-3.5" /> Email
+                          </Button>
+                        </a>
+                      )}
                       {employee.phone && (
                         <a href={`tel:${employee.phone}`}>
                           <Button variant="outline" size="sm" className="gap-1.5">
@@ -236,8 +238,8 @@ function EmployeeProfilePage() {
                 </h3>
                 <Separator />
                 <div className="space-y-3 text-sm">
-                  <InfoRow icon={Hash} label={lang === "pt" ? "Matrícula" : "Employee ID"} value={employee.employeeId} />
-                  <InfoRow icon={Mail} label="Email" value={employee.email} />
+                  {employee.employeeId && <InfoRow icon={Hash} label={lang === "pt" ? "Matrícula" : "Employee ID"} value={employee.employeeId} />}
+                  {employee.email && <InfoRow icon={Mail} label="Email" value={employee.email} />}
                   {employee.phone && <InfoRow icon={Phone} label={lang === "pt" ? "Telefone" : "Phone"} value={employee.phone} />}
                   {employee.extension && <InfoRow icon={Phone} label={lang === "pt" ? "Ramal" : "Extension"} value={employee.extension} />}
                   <InfoRow icon={Building2} label={lang === "pt" ? "Departamento" : "Department"} value={employee.department} />
