@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, User, Tag, Paperclip, History, Shield, Clock, Building2, CheckCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -34,11 +35,40 @@ function ProcedureDetailPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    proceduresService.getBySlug(slug)
-      .then(setProc)
-      .catch(() => setProc(null))
-      .finally(() => setLoading(false));
+    const load = async () => {
+      setLoading(true);
+      try {
+        const p = await proceduresService.getBySlug(slug);
+        if (!p) { setProc(null); return; }
+
+        // Load attachments from file_attachments table
+        const { data: attachments } = await supabase
+          .from("file_attachments")
+          .select("*")
+          .eq("entity_type", "procedure")
+          .eq("entity_id", p.id);
+
+        setProc({
+          ...p,
+          attachments: (attachments ?? []).map((a: any) => ({
+            id: a.id,
+            name: a.name,
+            type: a.file_type as any,
+            size: a.size,
+            sizeFormatted: a.size_formatted,
+            url: a.url,
+            language: a.language as "pt" | "en",
+            uploadedAt: a.created_at,
+            uploadedBy: a.uploaded_by ?? "unknown",
+          })),
+        });
+      } catch {
+        setProc(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    void load();
   }, [slug]);
 
   if (loading) {

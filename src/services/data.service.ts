@@ -824,6 +824,15 @@ class StorageService {
     if (error) throw new Error(error.message);
     return data ?? [];
   }
+
+  /** Get a signed URL for a file in a private bucket (1h expiry) */
+  async getSignedUrl(bucket: string, path: string, expiresIn = 3600): Promise<string> {
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .createSignedUrl(path, expiresIn);
+    if (error) throw new Error(error.message);
+    return data.signedUrl;
+  }
 }
 
 // ─── Institutional Pages Service ─────────────────────────────────────────────

@@ -117,9 +117,11 @@ function DocumentDetailPage() {
                       <span>{t("docs.version")} {doc.version}</span>
                     </div>
                   </div>
-                  <Button className="gap-2 shrink-0">
-                    <Download className="h-4 w-4" /> {t("docs.download")}
-                  </Button>
+                  <a href={doc.file.url} target="_blank" rel="noopener noreferrer" download>
+                    <Button className="gap-2 shrink-0">
+                      <Download className="h-4 w-4" /> {t("docs.download")}
+                    </Button>
+                  </a>
                 </CardContent>
               </Card>
             )}
