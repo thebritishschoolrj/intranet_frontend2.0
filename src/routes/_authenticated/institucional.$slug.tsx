@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useI18n } from "@/hooks/use-i18n";
 import { institutionalPagesService, storageService } from "@/services/data.service";
+import { sanitizeHtml } from "@/lib/sanitize";
 import type { InstitutionalPage } from "@/types/domain";
 
 export const Route = createFileRoute("/_authenticated/institucional/$slug")({
@@ -146,7 +147,7 @@ function InstitutionalDetailPage() {
         {/* Content */}
         <Card>
           <CardContent className="prose prose-sm max-w-none p-6 text-foreground dark:prose-invert">
-            <div dangerouslySetInnerHTML={{ __html: page.contentHtml }} />
+            <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(page.contentHtml) }} />
           </CardContent>
         </Card>
 

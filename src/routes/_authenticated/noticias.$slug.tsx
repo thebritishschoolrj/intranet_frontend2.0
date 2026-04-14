@@ -14,6 +14,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { useI18n } from "@/hooks/use-i18n";
 import { useAuth } from "@/contexts/auth-context";
 import { newsService } from "@/services/data.service";
+import { sanitizeHtml } from "@/lib/sanitize";
 import { supabase } from "@/integrations/supabase/client";
 import type { NewsArticle, FileAttachment } from "@/types/domain";
 
@@ -250,7 +251,7 @@ function NewsDetailPage() {
 
         {/* ─── Content ────────────────────────────────────────── */}
         <article className="prose prose-sm max-w-none text-foreground dark:prose-invert prose-headings:font-semibold prose-headings:tracking-tight prose-p:leading-relaxed prose-p:text-[15px] prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg">
-          <div dangerouslySetInnerHTML={{ __html: article.content }} />
+          <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.content) }} />
         </article>
 
         {/* ─── Gallery ─────────────────────────────────────── */}
